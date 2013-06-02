@@ -1,0 +1,15 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Date:</b>
+  <%= @saving.date %>
+</p>
+
+<p>
+  <b>Price:</b>
+  <%= @saving.price %>
+</p>
+
+
+<%= link_to 'Edit', edit_saving_path(@saving) %> |
+<%= link_to 'Back', savings_path %>

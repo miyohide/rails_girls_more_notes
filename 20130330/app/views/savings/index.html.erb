@@ -1,0 +1,35 @@
+<h1>今の貯金：
+  <% if @sum > 0 %>
+    <span><%= @sum %></span>
+  <% else %>
+    <span class="red"><%= @sum %></span>
+  <% end %>
+  <%= @sum %>
+  円</h1>
+
+<table>
+  <tr>
+    <th>Date</th>
+    <th>Price</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @savings.each do |saving| %>
+  <tr>
+    <td><%= saving.date %></td>
+    <td><%= saving.price %></td>
+    <td><%= link_to 'Show', saving %></td>
+    <td><%= link_to 'Edit', edit_saving_path(saving) %></td>
+    <td><%= link_to 'Destroy', saving, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Saving', new_saving_path %>
+<%= link_to 'メール送信', send_mail_savings_path %>
+<%= mail_to "mail_address@example.com", "aaa"%>
+
