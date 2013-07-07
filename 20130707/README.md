@@ -47,8 +47,76 @@ rails generate scaffold entry title:string body:text
 ```
 というコマンドを実行します。
 
-### 5. `rails server`でWebアプリを動かす
+### 5. `rake db:migrate`でテーブルの作成
+
+画面に入力したデータを保存する箱（データベースのテーブル）を保存するために、`rake db:migrate`でテーブルを作成します。
+
+### 6. `rails server`でWebアプリを動かす
 
 以上でアプリケーションが完成しました。`rails server`と入力後、ブラウザで`http://localhost:3000/hogehoge`にアクセスしてみましょう。
+
+## Twitterに似たアプリケーションを作ってみたい
+
+### 0. やる作業の分割
+
+Twitterでできるこはたくさんあるので、まずはやることを分割してみましょう。
+
++ テキストを入力して、「ツイートする」を押したらデータが登録される
++ ユーザを登録できるようにする
++ 誰がそのツイートをしたのか識別できるようにする
++ フォローできるように
++ mentionとかDMとか
++ etc...
+
+### 1. アプリケーションの作成
+
+アプリケーション名を「nekotter」にして、`rails new`コマンドを実行します。
+
+```
+rails new nekotter
+```
+
+その後、`nekotter`ディレクトリに移動します。
+
+```
+cd nekotter
+```
+
+### 2. テキストを入力して、「ツイートする」を押したらデータが登録される
+
+これは先程作成したhogehogeアプリケーションの応用で出来そうです。
+
+```
+rails generate scaffold tweet body:text
+```
+
+を実行すればOKです。
+
+あとは、ツイートデータを保存する箱（データベーステーブル）を作りましょう。
+
+```
+rake db:migrate
+```
+
+これで
+
+```
+rails server
+```
+
+で起動し`http://localhost:3000/tweets/`にアクセスすれば、ツイートできるアプリケーションが確認できるでしょう。
+
+### 3. ユーザを登録できるようにする（準備編）
+
+Twitterでもそうですが、誰がツイートしたのかを管理するためにも、ユーザを登録する機能を作りましょう。
+
+ユーザ管理機能の実装のために、今回は[devise](https://github.com/plataformatec/devise)というGemを使います。
+
+[devise](https://github.com/plataformatec/devise)の説明にある[Getting started](https://github.com/plataformatec/devise#getting-started)を参考に進めていきましょう。
+
+まず、`Gemfile`に`gem 'devise'`を追記し、`bundle install`を実行します。
+
+
+
 
 
