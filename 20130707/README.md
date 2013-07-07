@@ -169,7 +169,7 @@ rake db:migrate
 
 最後にログイン・ログアウト・ユーザ登録へのリンクを作成します。`app/views/layouts/application.html.erb`を開いて、`<body>`の下に次のプログラムを入力します。
 
-```ruby
+```erb
 <% if user_signed_in? -%>
   <%= current_user.email %>
   <%= link_to 'ログアウト', destroy_user_session_path, method: :delete %    >
