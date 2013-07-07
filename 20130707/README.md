@@ -148,6 +148,42 @@ root :to => 'tweets#index'
 
 その後、`public/index.html`を削除します。このファイルを削除しないと、ログイン成功後のアクセス先が、`public/index.html`になってしまうので、これを削除しておきます。
 
+### 6. ユーザ情報を格納するテーブルの作成
+
+次に、ユーザ情報（メールアドレスやパスワードなど）を格納するテーブルを作成します。これも、deviseのコマンドを利用することで可能です。
+
+```
+rails generate devise user
+```
+
+を実行すればOKです。
+
+データベーステーブルの定義ファイルであるmigrationファイルが`db/migrate`以下に作成されてますので、
+
+```
+rake db:migrate
+```
+を実行してテーブルを作成します。
+
+### 7. ログイン・ログアウト・ユーザ登録へのリンクの作成
+
+最後にログイン・ログアウト・ユーザ登録へのリンクを作成します。`app/views/layouts/application.html.erb`を開いて、`<body>`の下に次のプログラムを入力します。
+
+```ruby
+<% if user_signed_in? -%>
+  <%= current_user.email %>
+  <%= link_to 'ログアウト', destroy_user_session_path, method: :delete %    >
+<% else -%>
+  <%= link_to 'ログイン', new_user_session_path %>
+  <%= link_to 'ユーザ登録', new_user_registration_path %>
+<% end -%>
+```
+
+### 8. 実際に試す
+
+実際にアプリケーションを動かしてみましょう。一度実行している`rails server`を`Ctrl + C`で終了させ、`rails server`で再度起動させてください。
+
+ブラウザで、`http://localhost:3000/tweets`にアクセスすると、上に「ログイン」「ユーザ登録」というリンクが出ているのがわかるかと思います。
 
 
 
