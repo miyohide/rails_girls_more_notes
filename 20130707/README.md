@@ -116,6 +116,37 @@ Twitterでもそうですが、誰がツイートしたのかを管理するた�
 
 まず、`Gemfile`に`gem 'devise'`を追記し、`bundle install`を実行します。
 
+### 4. deviseの初期ファイルを作成する
+
+次に、deviseの初期ファイルを作成します。これも説明にあるように
+
+```
+rails generate devise:install
+```
+
+を実行するだけでOKです。
+
+このコマンドを実行すると、[この説明文](https://github.com/plataformatec/devise/tree/master/lib/generators/templates)が出力されます。
+
+このうち、2.に記されている`root_url`の設定と、`app/views/layouts/application.html.erb`の編集を行いましょう。
+
+### 5. `root_url`の設定
+
+`config/routes.rb`を開き、
+
+```ruby
+# root :to => 'welcome#index'
+```
+
+の部分を
+
+```ruby
+root :to => 'tweets#index'
+```
+
+に編集します。ツイートの一覧を表示するパスが`tweets#idex`なので、その値を指定しています。
+
+その後、`public/index.html`を削除します。このファイルを削除しないと、ログイン成功後のアクセス先が、`public/index.html`になってしまうので、これを削除しておきます。
 
 
 
