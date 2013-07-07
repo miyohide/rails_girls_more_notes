@@ -4,18 +4,19 @@
 
 # やりたいこと
 
-Railsの基礎からTwitterに似たアプリケーションを作ってみたい
++ Railsアプリケーションの基礎をやってみたい
++ Twitterに似たアプリケーションを作ってみたい
 
-## Railsのインストールとscaffoldを使ったアプリケーションについて
+## Railsアプリケーションの基礎をやってみたい
 
-+ Rails 3.2.13をインストールする（最新はRails 4なんですが、各種ライブラリが未対応なこともあって、3.2.13をインストールします）。
+### Rails 3.2.13をインストールする（最新はRails 4なんですが、各種ライブラリが未対応なこともあって、3.2.13をインストールします）。
 
 2013年7月7日現在、`gem install rails`とすると、Rails 4がインストールされます。このため、次のようにバージョンを指定して、Rails 3.2.13をインストールしてください。
 ```
 gem install rails -v 3.2.13
 ```
 
-+ `rails new アプリケーション名`でアプリケーションのひな形を作成します。
+### `rails new アプリケーション名`でアプリケーションのひな形を作成します。
 
 アプリケーション名は好きな名前を指定してください。今回は、`hogehoge`にしました。また、Rails 3.2.13を使うので、
 ```
@@ -23,7 +24,7 @@ rails _3.2.13_ new hogehoge
 ```
 でアプリケーションを作成します。
 
-+ `cd アプリケーション名`でディレクトリ移動
+### `cd アプリケーション名`でディレクトリ移動
 
 `rails new`コマンドで`hogehoge`ディレクトリが作成されているので、そこに移動します。
 
@@ -31,7 +32,7 @@ rails _3.2.13_ new hogehoge
 cd hogehoge
 ```
 
-+ `rails generate scaffold entry title:string body:text`でEntryに対する作成・更新・参照・削除・一覧表示の機能を作成します。
+### `rails generate scaffold entry title:string body:text`でEntryに対する作成・更新・参照・削除・一覧表示の機能を作成します。
 
 entryという箱（データベースのテーブル）を作成して、その箱に対する操作（データの作成・億新・参照・削除・一覧表示）の機能を一気に作成してくれるのが`rails generate scaffold`というコマンドです。
 
@@ -46,7 +47,7 @@ rails generate scaffold entry title:string body:text
 ```
 というコマンドを実行します。
 
-+ `rails server`でWebアプリを動かす
+### `rails server`でWebアプリを動かす
 
 以上でアプリケーションが完成しました。`rails server`と入力後、ブラウザで`http://localhost:3000/hogehoge`にアクセスしてみましょう。
 
