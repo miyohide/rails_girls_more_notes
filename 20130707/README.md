@@ -172,7 +172,7 @@ rake db:migrate
 ```erb
 <% if user_signed_in? -%>
   <%= current_user.email %>
-  <%= link_to 'ログアウト', destroy_user_session_path, method: :delete %    >
+  <%= link_to 'ログアウト', destroy_user_session_path, method: :delete %>
 <% else -%>
   <%= link_to 'ログイン', new_user_session_path %>
   <%= link_to 'ユーザ登録', new_user_registration_path %>
@@ -219,4 +219,147 @@ git init
 
 今後は、自分のタイミングで`git add`と`git commit`を行なってください。タイミングが難しいとは思いますが、ファイルを変更して、自分の思い通りのことが実現できたらコミットする癖をつけておくと良いでしょう。
 
+## Rails 4.0.0でdeviseを使う
+
+2013年7月7日（日）現在、Ruby on Rails 4.0.0でdeviseを使おうとすると、問題が発生します。具体的には、
+
+```
+rails generate devise user
+```
+
+を実行した後、
+
+```
+rake db:migrate
+```
+
+を実行すると、次のようなエラーメッセージが出力されます。
+
+```
+rake aborted!
+`attr_accessible` is extracted out of Rails into a gem. Please use new recommended protection model for params(strong_parameters) or add `protected_attributes` to your Gemfile to use old one.
+/Users/miyohide/rails_girls_sample/nekotter_v4/vendor/bundle/ruby/2.0.0/gems/activemodel-4.0.0/lib/active_model/deprecated_mass_assignment_security.rb:14:in `attr_accessible'
+/Users/miyohide/rails_girls_sample/nekotter_v4/app/models/user.rb:8:in `<class:User>'
+/Users/miyohide/rails_girls_sample/nekotter_v4/app/models/user.rb:1:in `<top (required)>'
+（以下略）
+```
+
+これを解決するためには、次の作業を行います。
+
+### 1. 自動生成したファイルを削除する
+
+`rails generate devise user`で生成された次のファイルを削除します。
+
++ app/models/user.rb
++ db/migrate/日付＋時間+_devise_create_users.rb
++ test/fixtures/users.yml
++ test/models/user_test.rb
+
+また、変更されたファイル（config/routes.rb）も修正します。
+
+```ruby
+NekotterV4::Application.routes.draw do
+  devise_for :users  # <- この行を削除する
+  resources :tweets
+  # （以下省略）
+end
+```
+
+gitでバージョン管理をしていて、`rails generate devise:install`の直後にコミットしていたら
+
+```
+git clean -f
+git checkout .
+```
+
+と打てばOKです。
+
+### 2. deviseの新バージョンをGemfileに記述する
+
+その後、deviseの新バージョンをGemfileに記述します。具体的には、Gemfileに
+
+```
+gem 'devise'
+```
+
+と書いていたところを
+
+```
+gem 'devise', '3.0.0.rc'
+```
+
+と書いて、
+
+```
+bundle install
+```
+
+コマンドを実行します。
+
+### 3. devise:install
+
+deviseの新しいバージョンのインストールが終わると、次は`rails generate devise:install`コマンドを実行します。
+
+実行時、
+
+```
+[DEVISE] Devise.use_salt_as_remember_token is deprecated and has no effect. Please remove it.
+    conflict  config/initializers/devise.rb
+Overwrite /Users/miyohide/rails_girls_sample/nekotter_v4/config/initializers/devise.rb? (enter "h" for help) [Ynaqdh]
+```
+
+というメッセージが出てきます。これは古いバージョンで作ったものを上書きするかの確認メッセージなので、Enterキーを押して上書きするようにしましょう。
+
+同じように`config/locals/devise.en.yml`に対しても上書きを行なってください。
+
+```
+[DEVISE] Devise.use_salt_as_remember_token is deprecated and has no effect. Please remove it.
+    conflict  config/initializers/devise.rb
+Overwrite /Users/miyohide/rails_girls_sample/nekotter_v4/config/initializers/devise.rb? (enter "h" for help) [Ynaqdh]
+       force  config/initializers/devise.rb
+    conflict  config/locales/devise.en.yml
+Overwrite /Users/miyohide/rails_girls_sample/nekotter_v4/config/locales/devise.en.yml? (enter "h" for help) [Ynaqdh]
+       force  config/locales/devise.en.yml
+```
+
+### 4. userモデルの作成
+
+再度、`rails generate devise user`を実行し、userモデルなどを作成します。
+
+その後、`rake db:migrate`を実行すると、今度はうまくテーブルを作ることができます。
+
+```
+==  DeviseCreateUsers: migrating ==============================================
+-- create_table(:users)
+   -> 0.0104s
+-- add_index(:users, :email, {:unique=>true})
+   -> 0.0007s
+-- add_index(:users, :reset_password_token, {:unique=>true})
+   -> 0.0006s
+==  DeviseCreateUsers: migrated (0.0119s) =====================================
+```
+
+### 5. ログイン・ログアウト・ユーザ登録へのリンクの作成
+
+最後にログイン・ログアウト・ユーザ登録へのリンクを作成します。これはRails 3.2.13でやったことと同じ事です。
+
+`app/views/layouts/application.html.erb`を開いて、`<body>`の下に次のプログラムを入力します。
+
+```erb
+<% if user_signed_in? -%>
+  <%= current_user.email %>
+  <%= link_to 'ログアウト', destroy_user_session_path, method: :delete %>
+<% else -%>
+  <%= link_to 'ログイン', new_user_session_path %>
+  <%= link_to 'ユーザ登録', new_user_registration_path %>
+<% end -%>
+```
+
+### 6. 実際に試す
+
+実際にアプリケーションを動かしてみましょう。一度実行している`rails server`を`Ctrl + C`で終了させ、`rails server`で再度起動させてください。
+
+ブラウザで、`http://localhost:3000/tweets`にアクセスすると、上に「ログイン」「ユーザ登録」というリンクが出ているのがわかるかと思います。
+
+ログインやユーザ登録等ができることを確認しましょう。
 
