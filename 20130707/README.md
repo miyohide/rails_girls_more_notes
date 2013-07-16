@@ -284,11 +284,7 @@ gem 'devise'
 
 と書いていたところを
 
-<s>
-```
-gem 'devise', '3.0.0.rc'
-```
-</s>
+<s> gem 'devise', '3.0.0.rc' </s>
 
 ```
 gem 'devise'
