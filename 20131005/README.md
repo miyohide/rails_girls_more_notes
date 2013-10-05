@@ -25,6 +25,11 @@
 
 ### 3. デザインする
 
+* Twitter Bootstrapについて
+  * Twitter社が作っている便利なスタイルシートのフレームワークです。
+  * 現在はVersion 3がリリースされていますが、リンク先の`railsgirls.com/assets/bootstrap.css`は`2.0.2`のものを使っています。そのため、ドキュメントは[こちら](http://bootstrapdocs.com/v2.0.2/docs/)のものを参照してください。
+  * 例えば、ナビゲーションバーのドキュメントは[こちら](http://bootstrapdocs.com/v2.0.2/docs/components.html#navbar)を参照してください。
+
 ### 4. 写真アップロード機能を追加する
 
 ### 5. 今後について
