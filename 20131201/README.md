@@ -41,19 +41,45 @@ Gemfileに`gem 'gmaps4rails'`を追加して、`bundle install`を行います�
 
 を実行すると、Production環境以外のGemがインストールされます。
 
-### 5. JavaScriptとCSSの説明
+### 5. カラムの追加
 
-サイトには、`rails g gmaps4rails:install`を実行すると書かれていたけど、これが上手く動かないorz。その他、model内に追加した`acts_as_gmappable`も上手く動かなかったので、今後の方針を考える。
+緯度と経度を保存するカラムを`people`テーブルに追加します。コマンドラインで次のコマンドを入力します。
 
-### 6. 方針変更
+```ruby
+rails g migration add_latitude_longitude_gmaps_to_people latitude:float longitude:float gmaps:boolean
+```
+
+その後、
+
+```ruby
+rake db:migrate
+```
+
+すると、カラムが追加されます。
+
+ちなみに、上記の`rails g migration`などのコマンドで打ち間違いなどに気がついた時は、
+
+```ruby
+rails d migration add_latitude_longitude_gmaps_to_people latitude:float longitude:float gmaps:boolean
+```
+
+のように`g`の部分を`d`に変更すると、作成されたファイルが削除されます。
+
+### 6. JavaScriptとCSSの説明
+
+サイトには、`rails g gmaps4rails:install`を実行すると書かれていたのですが、これが上手く動かないorz。
+
+その他、model内に追加した`acts_as_gmappable`も上手く動かなかったので、今後の方針を考えるようにしました。
+
+### 7. 方針変更
 
 [Google-Maps-for-Rails](https://github.com/apneadiving/Google-Maps-for-Rails)のReadmeに記載の内容と[チュートリアルビデオ](https://www.youtube.com/watch?v=R0l-7en3dUw&feature=youtu.be)に基づいて、作業を進めていくことにする。
 
-### 7. geocoderの導入
+### 8. geocoderの導入
 
 地名やランドマーク名から緯度・経度を求めるGemであるgeocoderをGemfileに追加して、bundle installを行います。
 
-### 8. Google Mapの表示位置を設定
+### 9. Google Mapの表示位置を設定
 
 viewにGoogle Mapを表示する位置を設定します。今回は、`app/views/people/index.html.erb`に対して、Google Mapを表示したい場所に次のプログラムを追加します。
 
@@ -63,7 +89,7 @@ viewにGoogle Mapを表示する位置を設定します。今回は、`app/view
 </div>
 ```
 
-### 9. ライブラリのJavaScriptコードの追加
+### 10. ライブラリのJavaScriptコードの追加
 
 ライブラリのJavaScriptコードを追加します。まずは、インターネット上にあるJavaScriptコードに対してリンクを張ります。`app/views/layouts/application.html.erb`に対して、以下の2行を追加します。
 
@@ -81,7 +107,7 @@ viewにGoogle Mapを表示する位置を設定します。今回は、`app/view
 
 [underscore.js](http://underscorejs.org/)は、サイトからダウンロードし、`app/assets/javascripts/`や`vendor/assets/javascripts/`以下に格納します。外部ライブラリなどは`vendor/assets/javascripts/`以下に格納するのがよいでしょう。
 
-### 10. modelの修正
+### 11. modelの修正
 
 `app/models/person.rb`に対して以下の2行を追加します。
 
@@ -94,7 +120,7 @@ viewにGoogle Mapを表示する位置を設定します。今回は、`app/view
 
 この時点でPersonにデータを入力すると、`address`の値から`latitude`・`longitude`の値が求められ、データベースに設定されることが確認できます。
 
-### 11. viewにGoogle Mapを表示させる（固定値で緯度・経度が0、0の位置）
+### 12. viewにGoogle Mapを表示させる（固定値で緯度・経度が0、0の位置）
 
 次に、`app/views/people/index.html.erb`に対して次のJavaScriptプログラムを挿入します。
 
@@ -122,7 +148,7 @@ handler.buildMap({ provider: {}, internal: {id: 'map'}}, function(){
 
 上記のプログラムの中で、`"lat": 0,`と`"lng": 0,`の記載があることから、ここでは入力されたデータによらず、緯度・経度が0・0の位置を示します。ただ、これでライブラリのインストールが上手くできていることが確認できるでしょう。
 
-### 12. 表示位置をそれぞれの人の登録情報に合わせる
+### 13. 表示位置をそれぞれの人の登録情報に合わせる
 
 上記までは緯度・経度が0・0のものを指していましたので、ここでは、登録されている人（person）の位置（address）をGoogle Mapに表示させましょう。そのための対応には、まず、`app/controllers/people_controller.rb`の`index`アクションを編集します。
 
