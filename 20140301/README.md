@@ -21,7 +21,12 @@
 
     ![Rails3 ScreenShot](https://raw.github.com/miyohide/rails_girls_more_notes/master/20140301/pictures/rails3_session_key.png)
 
+    * 上の画面では`value`欄にある「BAh7CEkiD3Nlc3Npb25faWQGOgZFVEkijTRhMTNk...」（本当はもっと長い）を変数`v`に入れ、`Marshal.load(Base64.decode64(v))`を`rails console`で実行すると`{"session_id"=>"4a13d0e1b5ddd5687f62d4fc166f9ef9", "hoge"=>"hogehgoe", "_csrf_token"=>"iHkLNz5/Hnlo99Iu9nEFeLZLgSfD55H3NvS+MDKWQNY="}`が得られる。
+    * これは画面に表示させてある`session_id`や`Controller`の`index`アクションで設定したsessionの情報が表示される。
+    * ソースは[rails3_scaffold](https://github.com/miyohide/rails_girls_more_notes/tree/master/20140301/rails3_scaffold)を参照。
+
     * Rails4では同じ方法では復号できません。（`TypeError: incompatible marshal file format (can't be read)`と出てしまいます。）
+    * ソースは[rails4_scaffold](https://github.com/miyohide/rails_girls_more_notes/tree/master/20140301/rails4_scaffold)を参照。
 
 * こういうことがどのように危険なのかは、「徳丸本」こと「体系的に学ぶ安全なWebアプリケーションの作り方」を参考にされると良いかと。
   * 徳丸本にはAmazonでKindle版もありますが、[達人出版会でDRMなしのPDF版](http://tatsu-zine.com/books/sbcr-taiketekinimanabu)が手に入ります。
