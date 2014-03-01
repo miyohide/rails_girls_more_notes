@@ -17,7 +17,10 @@
   * Rails4では暗号化されている。
   * Rails3までは暗号化されていない。
   * 上記のことを確認してみよう。
-    * Rails3では「_rails3_scaffold_session」キーの値が変数`v`に入っているとき、`Marshal.load(Base64.decode64(v))`で復号できる。
+    * Rails3では「\_rails3\_scaffold_session」キーの値が変数`v`に入っているとき、`Marshal.load(Base64.decode64(v))`で復号できる。
+
+    ![Rails3 ScreenShot](https://raw.github.com/miyohide/rails_girls_more_notes/master/20140301/pictures/rails3_session_key.png)
+
     * Rails4では同じ方法では復号できません。（`TypeError: incompatible marshal file format (can't be read)`と出てしまいます。）
 
 * こういうことがどのように危険なのかは、「徳丸本」こと「体系的に学ぶ安全なWebアプリケーションの作り方」を参考にされると良いかと。
