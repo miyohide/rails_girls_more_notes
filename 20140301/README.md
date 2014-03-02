@@ -18,6 +18,7 @@
   * Rails3までは暗号化されていない。
   * 上記のことを確認してみよう。
     * Rails3では「\_rails3\_scaffold_session」キーの値が変数`v`に入っているとき、`Marshal.load(Base64.decode64(v))`で復号できる。
+    * このキー名は、"\_" + アプリケーション名 + "\_session"という命名規則でできている。アプリケーション名が変わったらこの名前も変わる。
 
     ![Rails3 ScreenShot](https://raw.github.com/miyohide/rails_girls_more_notes/master/20140301/pictures/rails3_session_key.png)
 
