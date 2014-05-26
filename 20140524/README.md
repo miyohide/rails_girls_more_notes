@@ -53,5 +53,5 @@
 ## やりたいこと
 
 * ircのボットを作りたいです。
-
+  * [cinch](https://github.com/cinchrb/cinch)という部品（gem）で出来そうです。
 
