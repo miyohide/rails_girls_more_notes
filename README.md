@@ -13,4 +13,5 @@ Rails Girls Moreで実施した内容をメモとして残しています。
 - [2013年12月1日 RailsGirlsMore#10](https://github.com/miyohide/rails_girls_more_notes/tree/master/20131201)
 - [2014年3月1日 RailsGirlsMore#12](https://github.com/miyohide/rails_girls_more_notes/tree/master/20140301)
 - [2014年5月24日 RailsGirlsMore#13](https://github.com/miyohide/rails_girls_more_notes/tree/master/20140524)
+- [2014年7月6日 RailsGirlsMore#14](https://github.com/miyohide/rails_girls_more_notes/tree/master/20140706)
 
