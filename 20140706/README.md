@@ -13,7 +13,7 @@
 ```ruby
 class MyStand
    def pucci
-      @stand = WWhiteSnake"
+      @stand = "WWhiteSnake"
       p @stand + " 1回目"
    end
 end
@@ -37,7 +37,7 @@ WhiteSnake 1回目
 ```ruby
 class MyStand
    def pucci
-      @stand = WWhiteSnake"
+      @stand = "WWhiteSnake"
       p @stand + " 1回目"
    end
 end
